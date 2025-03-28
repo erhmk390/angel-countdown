@@ -1,68 +1,88 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Angel-Countdown 🎣</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: url('https://gallery.yopriceville.com/downloadfullsize/send/13146') no-repeat center center/cover;
-            color: white;
-        }
-        .container {
-            margin-top: 15vh;
-        }
-        h1 {
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-        }
-        #countdown {
-            font-size: 2rem;
-            margin-top: 20px;
-            color: #ADD8E6;
-        }
-        .fish {
-            font-size: 5rem;
-            display: block;
-            animation: swim 5s linear infinite;
-        }
-        @keyframes swim {
-            0% { transform: translateX(-100vw); }
-            100% { transform: translateX(100vw); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angel-Countdown mit lebendigem Fisch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: url('https://gallery.yopriceville.com/downloadfullsize/send/13146') no-repeat center center/cover;
+      color: white;
+      overflow: hidden; /* Verhindert Scrollen, wenn der Fisch sich bewegt */
+      position: relative;
+      height: 100vh;
+    }
+    .container {
+      margin-top: 15vh;
+    }
+    h1 {
+      font-size: 3rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    #countdown {
+      font-size: 2rem;
+      margin-top: 20px;
+      color: #FFD700; /* Beispiel: Gold */
+    }
+    /* Der Fisch als Bild, positioniert absolut */
+    .fish {
+      position: absolute;
+      width: 100px; /* Passe die Größe nach Bedarf an */
+      transition: transform 3s ease-in-out;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Countdown bis zum großen Angeltrip! 🎣</h1>
-        <div id="countdown">Lädt...</div>
-        <div class="fish">🐟</div>
-    </div>
-    
-    <script>
-        function updateCountdown() {
-            const targetDate = new Date("2025-05-01T00:00:00").getTime();
-            const now = new Date().getTime();
-            const diff = targetDate - now;
+  <div class="container">
+    <h1>Countdown bis zum großen Angeltrip! 🎣</h1>
+    <div id="countdown">Lädt...</div>
+  </div>
+  
+  <!-- Ersetze die URL im src-Attribut durch ein Bild eines realen Fisches -->
+  <img class="fish" src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="Fisch" />
 
-            if (diff <= 0) {
-                document.getElementById("countdown").innerHTML = "Es ist Zeit zu angeln! 🎣";
-                return;
-            }
+  <script>
+    // Countdown-Funktion
+    function updateCountdown() {
+      const targetDate = new Date("2025-05-01T00:00:00").getTime();
+      const now = new Date().getTime();
+      const diff = targetDate - now;
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      if (diff <= 0) {
+        document.getElementById("countdown").innerHTML = "Es ist Zeit zu angeln! 🎣";
+        return;
+      }
 
-            document.getElementById("countdown").innerHTML = 
-                `${days} Tage, ${hours} Std, ${minutes} Min, ${seconds} Sek`;
-        }
-        
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML =
+        `${days} Tage, ${hours} Std, ${minutes} Min, ${seconds} Sek`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Funktion, um den Fisch zufällig bewegen zu lassen
+    function moveFishRandomly() {
+      const fish = document.querySelector('.fish');
+      // Berechne den maximalen X- und Y-Wert, sodass der Fisch nicht aus dem Bildschirm verschwindet
+      const maxX = window.innerWidth - fish.clientWidth;
+      const maxY = window.innerHeight - fish.clientHeight;
+      // Generiere zufällige Koordinaten
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+      // Setze den neuen Standort
+      fish.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    // Lasse den Fisch alle 3 Sekunden die Position wechseln
+    setInterval(moveFishRandomly, 3000);
+    moveFishRandomly();
+  </script>
 </body>
 </html>
