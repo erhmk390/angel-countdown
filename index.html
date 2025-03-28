@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angel-Countdown 🎣</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('https://source.unsplash.com/1600x900/?fishing,water') no-repeat center center/cover;
+            color: white;
+        }
+        .container {
+            margin-top: 15vh;
+        }
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        #countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+        .fish {
+            font-size: 5rem;
+            display: block;
+            animation: swim 5s linear infinite;
+        }
+        @keyframes swim {
+            0% { transform: translateX(-100vw); }
+            100% { transform: translateX(100vw); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown bis zum großen Angeltrip! 🎣</h1>
+        <div id="countdown">Lädt...</div>
+        <div class="fish">🐟</div>
+    </div>
+    
+    <script>
+        function updateCountdown() {
+            const targetDate = new Date("2025-06-01T00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById("countdown").innerHTML = "Es ist Zeit zu angeln! 🎣";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = 
+                `${days} Tage, ${hours} Std, ${minutes} Min, ${seconds} Sek`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
