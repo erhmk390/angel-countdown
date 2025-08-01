@@ -10,14 +10,12 @@
       text-align: center;
       background: url('https://gallery.yopriceville.com/downloadfullsize/send/13146') no-repeat center center/cover;
       color: white;
-      overflow: hidden;
-      position: relative;
+      margin: 0;
       min-height: 100vh;
-      padding-bottom: 480px; /* Platz für Wetter-Widget */
     }
 
     .container {
-      margin-top: 15vh;
+      padding-top: 15vh;
     }
 
     h1 {
@@ -32,16 +30,14 @@
     }
 
     .fish {
-      position: absolute;
+      position: fixed;
       width: 100px;
       transition: transform 3s ease-in-out;
+      z-index: 1000;
     }
 
     .weather-container {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin: 60px auto 30px auto;
       width: 100%;
       max-width: 640px;
       padding: 10px;
@@ -84,37 +80,3 @@
   <script>
     function updateCountdown() {
       const targetDate = new Date("2025-08-09T10:00:00").getTime();
-      const now = new Date().getTime();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        document.getElementById("countdown").innerHTML = "Es ist Zeit zu angeln! 🎣";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML =
-        `${days} Tage, ${hours} Std, ${minutes} Min, ${seconds} Sek`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-    function moveFishRandomly() {
-      const fish = document.querySelector('.fish');
-      const maxX = window.innerWidth - fish.clientWidth;
-      const maxY = window.innerHeight - fish.clientHeight - 480; // Platz für Wetter-Widget
-      const randomX = Math.random() * maxX;
-      const randomY = Math.random() * maxY;
-      fish.style.transform = `translate(${randomX}px, ${randomY}px)`;
-    }
-
-    setInterval(moveFishRandomly, 3000);
-    moveFishRandomly();
-  </script>
-</body>
-</html>
