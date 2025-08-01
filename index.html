@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Angel-Countdown mit Wetter</title>
+  <title>Angel-Countdown mit Wetter (Trausnitz)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,51 +11,44 @@
       background: url('https://gallery.yopriceville.com/downloadfullsize/send/13146') no-repeat center center/cover;
       color: white;
       margin: 0;
-      min-height: 100vh;
+      padding: 0;
     }
-
     .container {
-      padding-top: 15vh;
+      padding: 15vh 1rem 2rem 1rem;
     }
-
     h1 {
       font-size: 3rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
-
     #countdown {
       font-size: 2rem;
-      margin-top: 20px;
+      margin-top: 1rem;
       color: #FFD700;
     }
-
     .fish {
       position: fixed;
       width: 100px;
       transition: transform 3s ease-in-out;
       z-index: 1000;
     }
-
     .weather-container {
-      margin: 60px auto 30px auto;
+      margin: 2rem auto;
       width: 100%;
       max-width: 640px;
-      padding: 10px;
+      padding: 0 1rem;
     }
-
     .weather-container iframe {
       width: 100%;
       height: 450px;
       border: none;
       border-radius: 12px;
     }
-
     .weather-container a {
       color: white;
       font-size: 0.9rem;
       display: block;
       text-align: center;
-      margin-top: 5px;
+      margin-top: 0.5rem;
       text-decoration: none;
     }
   </style>
@@ -63,20 +56,54 @@
 <body>
   <div class="container">
     <h1>Countdown bis zum nächsten Angeltrip! 🎣</h1>
-    <div id="countdown">Lädt...</div>
+    <div id="countdown">Lädt…</div>
   </div>
 
-  <img class="fish" src="https://media.istockphoto.com/id/1237884709/de/vektor/springen-forelle-fisch-vintage-vorlage.jpg?s=612x612&w=0&k=20&c=K380NIW0m4pVBq6BDXHTeQI_Pv98D590JvD50ohPo54=" alt="Fisch" />
+  <img class="fish"
+    src="https://media.istockphoto.com/id/1237884709/de/vektor/springen-forelle-fisch-vintage-vorlage.jpg?s=612x612&w=0&k=20&c=K380NIW0m4pVBq6BDXHTeQI_Pv98D590JvD50ohPo54="
+    alt="Fisch" />
 
   <div class="weather-container">
-    <iframe src="https://www.meteoblue.com/de/wetter/widget/daily/pfreimd_deutschland_2852402?geoloc=fixed&days=7&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image" 
-      allowtransparency="true" scrolling="NO">
+    <!-- meteoblue 7-Tage Widget für Trausnitz bei Pfreimd -->
+    <iframe
+      src="https://www.meteoblue.com/de/wetter/widget/daily/trausnitz_germany_2821504?geoloc=fixed&days=7&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image"
+      allowtransparency="true"
+      scrolling="NO">
     </iframe>
-    <a href="https://www.meteoblue.com/de/wetter/woche/pfreimd_deutschland_2852402" target="_blank">
-      Detaillierte 7-Tage-Wettervorhersage von meteoblue
+    <a href="https://www.meteoblue.com/de/wetter/woche/trausnitz_germany_2821504" target="_blank">
+      Detaillierte 7‑Tage‑Wettervorhersage von meteoblue
     </a>
   </div>
 
   <script>
     function updateCountdown() {
-      const targetDate = new Date("2025-08-09T10:00:00").getTime();
+      const target = new Date("2025-08-09T10:00:00").getTime();
+      const now = new Date().getTime();
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").innerText = "Es ist Zeit zu angeln! 🎣";
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerText =
+        `${days} Tage, ${hours} Std, ${minutes} Min, ${seconds} Sek`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    function moveFishRandomly() {
+      const fish = document.querySelector('.fish');
+      const maxX = window.innerWidth - fish.clientWidth;
+      const maxY = window.innerHeight - fish.clientHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      fish.style.transform = `translate(${x}px, ${y}px)`;
+    }
+    setInterval(moveFishRandomly, 3000);
+    moveFishRandomly();
+  </script>
+</body>
+</html>
